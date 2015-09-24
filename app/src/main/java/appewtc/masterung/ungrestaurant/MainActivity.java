@@ -18,7 +18,16 @@ public class MainActivity extends AppCompatActivity {
         //Create & Connected SQLite
         createAndConnected();
 
+        //Test Add New Value
+        testAddNewValue();
+
+
     }   // onCreate
+
+    private void testAddNewValue() {
+        objUserTABLE.addNewUser("testUser", "testPass", "โดรามอน");
+        objFoodTABLE.addNewFood("testFood", "testSource", "1234");
+    }
 
     private void createAndConnected() {
         objUserTABLE = new UserTABLE(this);
