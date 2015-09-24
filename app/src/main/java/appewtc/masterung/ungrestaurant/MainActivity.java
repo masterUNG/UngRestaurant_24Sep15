@@ -15,8 +15,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //Create & Connected SQLite
+        createAndConnected();
 
     }   // onCreate
+
+    private void createAndConnected() {
+        objUserTABLE = new UserTABLE(this);
+        objFoodTABLE = new FoodTABLE(this);
+    }
 
 }   // Main Class
