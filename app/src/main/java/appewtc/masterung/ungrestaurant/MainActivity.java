@@ -1,5 +1,6 @@
 package appewtc.masterung.ungrestaurant;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,10 +20,19 @@ public class MainActivity extends AppCompatActivity {
         createAndConnected();
 
         //Test Add New Value
-        testAddNewValue();
+        //testAddNewValue();
+
+        //Delete All data
+        deleteAllData();
 
 
     }   // onCreate
+
+    private void deleteAllData() {
+        SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("Restaurant.db", MODE_PRIVATE, null);
+        objSqLiteDatabase.delete("userTABLE", null, null);
+        objSqLiteDatabase.delete("foodTABLE", null, null);
+    }
 
     private void testAddNewValue() {
         objUserTABLE.addNewUser("testUser", "testPass", "โดรามอน");
