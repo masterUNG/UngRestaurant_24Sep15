@@ -1,8 +1,11 @@
 package appewtc.masterung.ungrestaurant;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,8 +28,29 @@ public class MainActivity extends AppCompatActivity {
         //Delete All data
         deleteAllData();
 
+        //Synchronize JSON to SQLite
+        synJSONtoSQLite();
 
     }   // onCreate
+
+    private void synJSONtoSQLite() {
+
+        //0. Change Policy
+        StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(myPolicy);
+
+        int intTimes = 0;
+        while (intTimes <= 1) {
+
+            //Constant
+            InputStream objInputStream = null;
+            String strJSON = null;
+            
+
+            intTimes += 1;
+        }   //while
+
+    }   // synJSONtoSQLite
 
     private void deleteAllData() {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("Restaurant.db", MODE_PRIVATE, null);
