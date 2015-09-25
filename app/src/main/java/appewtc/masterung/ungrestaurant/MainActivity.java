@@ -1,10 +1,14 @@
 package appewtc.masterung.ungrestaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -23,12 +27,16 @@ public class MainActivity extends AppCompatActivity {
     //Explicit
     private UserTABLE objUserTABLE;
     private FoodTABLE objFoodTABLE;
-
+    private EditText userEditText, passwordEditText;
+    private String userString, passwordString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Bind Widget
+        bindWidget();
 
         //Create & Connected SQLite
         createAndConnected();
@@ -43,6 +51,72 @@ public class MainActivity extends AppCompatActivity {
         synJSONtoSQLite();
 
     }   // onCreate
+
+    public void clickLogin(View view) {
+
+        userString = userEditText.getText().toString().trim();
+        passwordString = passwordEditText.getText().toString().trim();
+
+        if (userString.equals("") || passwordString.equals("") ) {
+
+            //Have Space
+            myAlertDialog("มีช่องว่าง", "กรุณากรอกทุกช่อง นะคะ");
+
+        } else {
+
+            //No Space
+            checkUser();
+
+        }
+
+    }   // clickLogin
+
+    private void checkUser() {
+
+        try {
+
+            String[] strMyResult = objUserTABLE.searchUser(userString);
+
+            if (passwordString.equals(strMyResult[2])) {
+
+                welcome(strMyResult[3]);
+
+            } else {
+                myAlertDialog("Password False", "Please Try agains Password False");
+            }
+
+        } catch (Exception e) {
+            myAlertDialog("No User", "No " + userString+ " in my Database");
+        }
+
+    } // checkUser
+
+    private void welcome(String strName) {
+
+    }   // welcome
+
+    private void myAlertDialog(String strTitle, String strMessage) {
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.danger);
+        objBuilder.setTitle(strTitle);
+        objBuilder.setMessage(strMessage);
+        objBuilder.setCancelable(false);
+        objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        objBuilder.show();
+
+    }   // myAlertDialog
+
+
+    private void bindWidget() {
+        userEditText = (EditText) findViewById(R.id.editText);
+        passwordEditText = (EditText) findViewById(R.id.editText2);
+    }
 
     private void synJSONtoSQLite() {
 
